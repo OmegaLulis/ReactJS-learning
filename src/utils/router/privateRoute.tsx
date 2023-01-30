@@ -6,7 +6,7 @@ import {useAuth} from "../hook";
 
 const PrivateRoute = () => {
     //имитация токена true
-    const auth = useAuth()
+    const auth = true //useAuth()
     return (
         auth ? <Outlet /> : <Navigate to={"register"} />
     );
