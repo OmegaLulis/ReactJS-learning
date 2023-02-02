@@ -21,23 +21,26 @@ function App() {
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <LayoutComponent>
+                {/*переделывае логику */}
+
                     <div className="app">
 
                         {/*В Routes оборачиваем все пути, которые будут созданы с помошью компонента Route 0.4*/}
                         <Routes>
-                            {/*PrivateRoute содержит routes которым необходим ограниченный доступ*/}
-                            <Route element={<PrivateRoute/>}>
-                                <Route path="/" element={<Home />}/>
-                                <Route path="watchlist" element={<WatchlistComponent />}/>
-                                <Route path="news" element={<NewsComponent />}/>
-                                <Route path="settings" element={<SettingsComponent />}/>
+                            <Route element={<LayoutComponent />}>
+                                {/*PrivateRoute содержит routes которым необходим ограниченный доступ*/}
+                                <Route element={<PrivateRoute/>}>
+                                    <Route path="/" element={<Home />}/>
+                                    <Route path="watchlist" element={<WatchlistComponent />}/>
+                                    <Route path="news" element={<NewsComponent />}/>
+                                    <Route path="settings" element={<SettingsComponent />}/>
+                                </Route>
+                                <Route path="register" element={<AuthRootComponent/>}/>
+                                <Route path="login" element={<AuthRootComponent/>}/>
                             </Route>
-                            <Route path="register" element={<AuthRootComponent/>}/>
-                            <Route path="login" element={<AuthRootComponent/>}/>
                         </Routes>
                     </div>
-                </LayoutComponent>
+
             </ThemeProvider>
 
         </ColorModeContext.Provider>
