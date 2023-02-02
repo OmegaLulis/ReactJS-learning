@@ -7,6 +7,12 @@ import AuthRootComponent from "./components/auth";
 import {ColorModeContext, useMode} from "./theme"
 import {ThemeProvider, CssBaseline} from "@mui/material";
 import LayoutComponent from "./components/layout";
+import Watchlist from "./components/watchlist";
+import Settings from "./components/settings";
+import News from "./components/news";
+import SettingsComponent from "./components/settings";
+import WatchlistComponent from "./components/watchlist";
+import NewsComponent from "./components/news";
 
 function App() {
     const [colorMode, theme] = useMode()
@@ -22,7 +28,10 @@ function App() {
                         <Routes>
                             {/*PrivateRoute содержит routes которым необходим ограниченный доступ*/}
                             <Route element={<PrivateRoute/>}>
-                                <Route path="/" element={<Home/>}/>
+                                <Route path="/" element={<Home />}/>
+                                <Route path="watchlist" element={<WatchlistComponent />}/>
+                                <Route path="news" element={<NewsComponent />}/>
+                                <Route path="settings" element={<SettingsComponent />}/>
                             </Route>
                             <Route path="register" element={<AuthRootComponent/>}/>
                             <Route path="login" element={<AuthRootComponent/>}/>
