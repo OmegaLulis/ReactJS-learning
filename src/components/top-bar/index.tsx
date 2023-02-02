@@ -7,43 +7,38 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotifactionsNoneIcon from "@mui/icons-material/NotificationsNone";
 import {ColorModeContext, tokens} from "../../theme";
 import {useStyles} from "./styles";
+import {useAppSelector} from "../../utils/hook";
 
 const TopBarComponent = () => {
 
     const theme = useTheme()
-    const colors = tokens(theme.palette.mode)
     // используем useContext для цветовой палитры
     const colorMode: any = useContext(ColorModeContext)
     const classes = useStyles()
 
     return (
-        <Box display='flex' justifyContent='space-between' alignItems='center' px='32px' py='24px'>
-            <Grid>Welcom Jopa </Grid>
+        <Box className={classes.root}>
+            <Grid>Welcom U </Grid>
             <Box display='flex'>
-                <Grid onClick={colorMode.toggleColorMode} >
-                    <IconButton sx={{mr: '25px'}}>
+                <Grid onClick={colorMode.toggleColorMode} className={classes.themeIcon}>
+                    <IconButton>
                         {theme.palette.mode === 'dark' ? (<DarkModeIcon fontSize='large'/>) : (<LightModeIcon fontSize='large'/>)}
                     </IconButton>
                 </Grid>
-                <Grid sx={{ pr:'37px',borderRight:`1px solid ${colors.borderColor}`}}>
+                <Grid className={classes.notificationIcon}>
                     <IconButton>
                         <NotifactionsNoneIcon fontSize='large' />
                     </IconButton>
                 </Grid>
                 <Grid
-                    sx={{
-                        display: 'flex',
-                        backgroundColor: `${colors.primary[600]}`,
-                        borderRadius: '8px',
-                        ml: '28px'
-                    }}
+                    className={classes.searchBlock}
                 >
                     {/*Поле для поиска*/}
-                    <IconButton className={classes.root} >
+                    <IconButton className={classes.searchIcon} >
                         <SearchIcon/>
                     </IconButton>
                     {/*получение данных инпутбейс - типа текст*/}
-                    <InputBase sx={{px: "18px", py: '12px'}} placeholder='search for me'/>
+                    <InputBase className={classes.searchInput} placeholder='search for me'/>
                 </Grid>
             </Box>
         </Box>
