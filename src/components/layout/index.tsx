@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {ILayout} from "../../common/types/layout";
 import TopBarComponent from "../top-bar";
-import {useLocation} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import {Box, useMediaQuery} from "@mui/material";
 import SidebarComponent from "../sidebar";
 import {useStyles} from "./styles";
 
-const LayoutComponent = ({children}: ILayout) => {
-    const [isOpen,setIsOpen] = useState(true)
+const LayoutComponent = () => {
+    const [isOpen,setIsOpen] = useState(false)
     const location = useLocation()
     const isNonMobile = useMediaQuery('(min-width:600px)')
     const classes = useStyles()
@@ -16,7 +16,7 @@ const LayoutComponent = ({children}: ILayout) => {
         location.pathname === '/login' || location.pathname === '/register'
             ? (
                 <>
-                    {children}
+                    <Outlet />
                 </>
             ) : (
                 <Box display={isNonMobile ? 'flex': 'block'}
@@ -25,14 +25,19 @@ const LayoutComponent = ({children}: ILayout) => {
                      height='100%'>
                     <SidebarComponent
                         isNonMobile={isNonMobile}
-                        drawerWidth='250'
+                        drawerWidth='250px'
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
                     />
                     {/*корректно отоброжение сайдбара */}
                     <Box className={classes.mainSection}>
-                        <TopBarComponent/>
-                        {children}
+                        <TopBarComponent
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                        />
+                        {/*переделываем навигацую компонентов через реакт роутер дом*/}
+
+                        <Outlet />
                     </Box>
                 </Box>
             )
