@@ -102,37 +102,31 @@ export const themeSettings: any = (mode: string) => {
                     }
             })
         },
-        typography:{
-            frontFamily: ['Poppins', 'sans-serif',].join(','),
+        typography: {
+            fontFamily: ['Poppins', 'sans-serif'].join(','),
             fontSize: 14,
-            fontWeight: 500,
             h1: {
-                frontFamily: ['Poppins', 'sans-serif',].join(','),
-                fontSize: 32,
-                fontWeight: 600
+                fontFamily: ['Poppins', 'sans-serif'].join(','),
+                fontSize: 28,
             },
             h2: {
-                frontFamily: ['Poppins', 'sans-serif',].join(','),
+                fontFamily: ['Poppins', 'sans-serif'].join(','),
                 fontSize: 20,
-                fontWeight: 600
             },
             h3: {
-                frontFamily: ['Poppins', 'sans-serif',].join(','),
+                fontFamily: ['Poppins', 'sans-serif'].join(','),
                 fontSize: 18,
-                fontWeight: 600
             },
             p: {
-                frontFamily: ['Poppins', 'sans-serif',].join(','),
+                fontFamily: ['Poppins', 'sans-serif'].join(','),
                 fontSize: 14,
-                fontWeight: 500
-            },
 
-
+            }
         }
     }
 }
 
-export const ColorModeContext: any = createContext({
+export const ColorModeContext = createContext<{toggleColorMode : () => void}>({
     toggleColorMode : () =>{}
 })
 export const useMode = () =>{

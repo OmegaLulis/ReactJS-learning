@@ -28,6 +28,4 @@ export const RegisterSchema = yup.object().shape({
     firstName: yup.string().required(),
     userName: yup.string().required(),
 
-
-
 })

@@ -32,6 +32,14 @@ export const useStyle = makeStyles((theme:Theme)=>{
         },
         brandTitle:{
             color: `${theme.palette.mode === 'dark' ? colors.white.DEFAULT: colors.black.DEFAULT}`
+        },
+        active:{
+            backgroundColor: '#1900D5 !important',
+            color: '#fff !important',
+            borderRadius: '4px !important',
+            '& .MuiSvgIcon-root': {
+                color: `${colors.white.DEFAULT} !important`
+            }
         }
 
     }

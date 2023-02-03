@@ -1,17 +1,21 @@
-import React, {Fragment} from 'react';
-import {Button, TextField, Typography} from "@mui/material";
+import React from 'react';
+import {TextField, Typography} from "@mui/material";
 import {IPropsLogin} from "../../../common/types/auth";
 import {jsx} from "@emotion/react";
 import JSX = jsx.JSX;
+import {useStyles} from "./styles";
+import AppButton from "../../app-button";
 
 // Страница логина
+
 const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
+    const classes = useStyles()
     const {navigate, register, errors} = props // по свойству onChange поля передаем наши  пропсы полю
     return (
         <>
             {/*Добавляем визуальную часть логина*/}
-            <Typography variant="h2" fontFamily="Poppins" textAlign="center"> Login </Typography>
-            <Typography variant="body1" marginBottom={2} fontFamily="Poppins" textAlign="center"> Enter login and
+            <Typography variant="h2" textAlign="center" fontSize={28}> Login </Typography>
+            <Typography variant="body1" marginBottom={2} textAlign="center"> Enter login and
                 password </Typography>
             <TextField
                 error={!!errors.email}
@@ -33,10 +37,10 @@ const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
                        helperText={errors.password ? `${errors.password.message} ` : ''}
                        {...register('password')}
             />
-            <Button type="submit" sx={{fontFamily: "Poppins", marginTop: 2, marginBottom: 2, width: "60%"}}
-                    variant="contained"> Login </Button>
+            <AppButton type="submit" sx={{marginTop: 2, marginBottom: 2, width: "60%"}}
+                    variant="contained"> Login </AppButton>
             <Typography variant="body1" sx={{fontFamily: "Poppins",}}> Not yet registered? Click<span
-                className="incitingText" onClick={() => (navigate('/register'))}>Here!</span></Typography>
+                className={classes.incitingText} onClick={() => (navigate('/register'))}>Here!</span></Typography>
         </>
     );
 };

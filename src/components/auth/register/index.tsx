@@ -3,16 +3,19 @@ import {Button, TextField, Typography} from "@mui/material";
 import {IPropsRegister} from "../../../common/types/auth";
 import {jsx} from "@emotion/react";
 import JSX = jsx.JSX;
+import {useStyles} from "./styles";
+import AppButton from "../../app-button";
 
 const RegisterPage: React.FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
     // пропрсы из рутового компонента
     const {navigate, register, errors} = props
+    const classes = useStyles()
 
     return (
         <>
             {/*Добавляем визуальную часть логина внутре фрагмента*/}
-            <Typography variant="h2" fontFamily="Poppins" textAlign="center"> Register </Typography>
-            <Typography variant="body1" marginBottom={2} fontFamily="Poppins" textAlign="center"> Fill in the fields for
+            <Typography variant="h2"  textAlign="center"> Register </Typography>
+            <Typography variant="body1" marginBottom={2} textAlign="center"> Fill in the fields for
                 registration </Typography>
             <TextField
                 error={!!errors.firstName}
@@ -65,12 +68,12 @@ const RegisterPage: React.FC<IPropsRegister> = (props: IPropsRegister): JSX.Elem
                 helperText={errors.confirmPassword ? `${errors.confirmPassword.message}`: ''}
                 {...register('confirmPassword')}
             />
-            <Button type="submit" sx={{fontFamily: "Poppins", marginTop: 2, marginBottom: 2, width: "60%"}}
-                    variant="contained"> Register </Button>
-            <Typography variant="body1" sx={{fontFamily: "Poppins",}}> Already have an account?<span
-                className="incitingText" onClick={() => navigate('/login')}>Sign in!</span></Typography>
-            <Typography variant="body1" sx={{fontFamily: "Poppins",}}><span
-                className="incitingText">Forgot Password?</span></Typography>
+            <AppButton type="submit" sx={{marginTop: 2, marginBottom: 2, width: "60%"}}
+                    variant="contained"> Register </AppButton>
+            <Typography variant="body1"> Already have an account?<span
+                className={classes.incitingText} onClick={() => navigate('/login')}>Sign in!</span></Typography>
+            <Typography variant="body1"><span
+                className={classes.incitingText}>Forgot Password?</span></Typography>
         </>
     );
 };
