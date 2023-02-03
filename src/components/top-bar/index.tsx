@@ -2,12 +2,12 @@ import React, {useContext} from 'react';
 import {AppBar, Box, Grid, IconButton, InputBase, Toolbar, Typography, useTheme} from "@mui/material";
 import {LightMode,DarkMode,Search, MenuOutlined} from "@mui/icons-material";
 import NotifactionsNoneIcon from "@mui/icons-material/NotificationsNone";
-import {ColorModeContext, tokens} from "../../theme";
+import {ColorModeContext} from "../../theme";
 import {useStyles} from "./styles";
-import {useAppSelector} from "../../utils/hook";
 import FlexBetween from "../flex-between";
+import {ITopBarProps} from "../../common/types/top-bar";
 
-const TopBarComponent = (props: any) => {
+const TopBarComponent: React.FC<ITopBarProps> = (props: ITopBarProps):JSX.Element => {
 
     const theme = useTheme()
     // используем useContext для цветовой палитры

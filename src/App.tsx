@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from "./components/home";
+import Home from "./pages/home";
 // Импортирую Routes 0.3
 import {Route, Routes} from "react-router-dom";
 import PrivateRoute from "./utils/router/privateRoute";
@@ -7,12 +7,9 @@ import AuthRootComponent from "./components/auth";
 import {ColorModeContext, useMode} from "./theme"
 import {ThemeProvider, CssBaseline} from "@mui/material";
 import LayoutComponent from "./components/layout";
-import Watchlist from "./components/watchlist";
-import Settings from "./components/settings";
-import News from "./components/news";
-import SettingsComponent from "./components/settings";
-import WatchlistComponent from "./components/watchlist";
-import NewsComponent from "./components/news";
+import SettingsComponent from "./pages/settings";
+import WatchlistComponent from "./pages/watchlist";
+import NewsComponent from "./pages/news";
 
 function App() {
     const [colorMode, theme] = useMode()
