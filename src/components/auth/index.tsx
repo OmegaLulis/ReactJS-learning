@@ -10,6 +10,7 @@ import JSX = jsx.JSX;
 import {useAppDispatch} from "../../utils/hook";
 import {login} from "../../store/slice/auth";
 import {appErros} from "../../common/errors";
+import {useForm} from "react-hook-form";
 
 // Рутовый компонент для регистрации и логина
 
@@ -24,13 +25,19 @@ const AuthRootComponent:React.FC = ():JSX.Element => {
     const location = useLocation()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const handelSubmit = async (e: {preventDefault: () => void;}) => {
-        e.preventDefault()
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    const handelSubmitForm = async (data: any) => {
         if (location.pathname==="/login") {
             try {
                 const userData = {
-                    email,
-                    password
+                    email: data.email,
+                    password: data.password
                 }
                 // через инстанст идем к бэку за данными
 
@@ -64,7 +71,7 @@ const AuthRootComponent:React.FC = ():JSX.Element => {
     }
     return (
         <div className="root">
-            <form className="form" onSubmit={handelSubmit}>
+            <form className="form" onSubmit={handleSubmit(handelSubmitForm)}>
                 <Box
                     display='flex'
                     justifyContent='center'
@@ -78,9 +85,9 @@ const AuthRootComponent:React.FC = ():JSX.Element => {
                 >
                     {/*тут прокидываем компоненты и также ловим хуки */}
                     {location.pathname === "/login" ?
-                        <LoginPage setEmail={setEmail}
-                                   setPassword={setPassword}
-                                   navigate={navigate}
+                        <LoginPage navigate={navigate}
+                                   register={register}
+                                   errors={errors}
                         />
                         : location.pathname === "/register" ?
                         <RegisterPage setEmail={setEmail}
