@@ -11,16 +11,12 @@ import {useAppDispatch} from "../../utils/hook";
 import {login} from "../../store/slice/auth";
 import {appErros} from "../../common/errors";
 import {useForm} from "react-hook-form";
-
+import { yupResolver } from '@hookform/resolvers/yup';
+import {LoginSchema, RegisterSchema} from "../../utils/yup";
 // Рутовый компонент для регистрации и логина
 
 const AuthRootComponent:React.FC = ():JSX.Element => {
-    // для сохранения данных с бэка создаем переменные
-    const [email, setEmail]= useState('')
-    const [password, setPassword]= useState('')
-    const [userName, setUserName]= useState('')
-    const [firstName, setFirstName]= useState('')
-    const [confirmPassword, setConfirmPassword]= useState('')
+
     // ловим хук и в зависимости от данных отправляем пользователя к компоненту
     const location = useLocation()
     const dispatch = useAppDispatch()
@@ -30,7 +26,10 @@ const AuthRootComponent:React.FC = ():JSX.Element => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+
+        resolver: yupResolver((location.pathname==='/login'? LoginSchema : RegisterSchema))
+    });
 
     const handelSubmitForm = async (data: any) => {
         if (location.pathname==="/login") {
@@ -49,13 +48,13 @@ const AuthRootComponent:React.FC = ():JSX.Element => {
                 return e
             }
         } else{
-            if (confirmPassword===password){
+            if (data.password===data.confirmPassword){
                 try {
                     const userData = {
-                        firstName,
-                        userName,
-                        email,
-                        password
+                        firstName: data.firstName,
+                        userName: data.userName,
+                        email: data.email,
+                        password: data.password
                     }
                     const newUser = await instance.post('auth/register', userData)
                     await dispatch(login(newUser.data))
@@ -65,7 +64,7 @@ const AuthRootComponent:React.FC = ():JSX.Element => {
                     return e
                 }
             }else{
-                throw new Error(appErros.passworDoNotConfirm)
+                throw new Error(appErros.passwordDoNotConfirm)
             }
         }
     }
@@ -90,12 +89,10 @@ const AuthRootComponent:React.FC = ():JSX.Element => {
                                    errors={errors}
                         />
                         : location.pathname === "/register" ?
-                        <RegisterPage setEmail={setEmail}
-                                      setPassword={setPassword}
-                                      setUserName={setUserName}
-                                      setFirstName={setFirstName}
-                                      setConfirmPassword={setConfirmPassword}
+                        <RegisterPage
                                       navigate={navigate}
+                                      register={register}
+                                      errors={errors}
                         />: null}
                 </Box>
             </form>
