@@ -1,14 +1,14 @@
 import React from 'react';
-import {Button, TextField, Typography} from "@mui/material";
+import { TextField, Typography} from "@mui/material";
 import {IPropsRegister} from "../../../common/types/auth";
 import {jsx} from "@emotion/react";
 import JSX = jsx.JSX;
 import {useStyles} from "./styles";
-import AppButton from "../../app-button";
+import AppLoadingButton from "../../loading-button";
 
 const RegisterPage: React.FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
     // пропрсы из рутового компонента
-    const {navigate, register, errors} = props
+    const {navigate, register, errors, loading} = props
     const classes = useStyles()
 
     return (
@@ -68,8 +68,8 @@ const RegisterPage: React.FC<IPropsRegister> = (props: IPropsRegister): JSX.Elem
                 helperText={errors.confirmPassword ? `${errors.confirmPassword.message}`: ''}
                 {...register('confirmPassword')}
             />
-            <AppButton type="submit" sx={{marginTop: 2, marginBottom: 2, width: "60%"}}
-                    variant="contained"> Register </AppButton>
+            <AppLoadingButton loading={loading} type="submit" sx={{marginTop: 2, marginBottom: 2, width: "60%"}}
+                    variant="contained"> Register </AppLoadingButton>
             <Typography variant="body1"> Already have an account?<span
                 className={classes.incitingText} onClick={() => navigate('/login')}>Sign in!</span></Typography>
             <Typography variant="body1"><span

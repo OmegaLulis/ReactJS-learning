@@ -4,13 +4,14 @@ import {IPropsLogin} from "../../../common/types/auth";
 import {jsx} from "@emotion/react";
 import JSX = jsx.JSX;
 import {useStyles} from "./styles";
-import AppButton from "../../app-button";
+
+import AppLoadingButton from "../../loading-button";
 
 // Страница логина
 
 const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
     const classes = useStyles()
-    const {navigate, register, errors} = props // по свойству onChange поля передаем наши  пропсы полю
+    const {navigate, register, errors, loading} = props // по свойству onChange поля передаем наши  пропсы полю
     return (
         <>
             {/*Добавляем визуальную часть логина*/}
@@ -37,8 +38,8 @@ const LoginPage: React.FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
                        helperText={errors.password ? `${errors.password.message} ` : ''}
                        {...register('password')}
             />
-            <AppButton type="submit" sx={{marginTop: 2, marginBottom: 2, width: "60%"}}
-                    variant="contained"> Login </AppButton>
+            <AppLoadingButton loading={loading} type="submit" sx={{marginTop: 2, marginBottom: 2, width: "60%"}}
+                    variant="contained"> Login </AppLoadingButton>
             <Typography variant="body1" sx={{fontFamily: "Poppins",}}> Not yet registered? Click<span
                 className={classes.incitingText} onClick={() => (navigate('/register'))}>Here!</span></Typography>
         </>
