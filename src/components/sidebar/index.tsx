@@ -20,7 +20,6 @@ import {
 import {useLocation, useNavigate} from "react-router-dom";
 import FlexBetween from "../flex-between";
 import {navMenu} from "../../moks/navigate";
-import {tokens} from "../../theme";
 import Logo from "../../assets/images/sidebar/logo.svg"
 import {ISidebarProps} from "../../common/types/sidebar";
 

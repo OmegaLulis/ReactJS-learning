@@ -20,7 +20,7 @@ const TopBarComponent: React.FC<ITopBarProps> = (props: ITopBarProps):JSX.Elemen
             <Toolbar className={classes.toolBar}>
                 <FlexBetween>
                     <MenuOutlined className={classes.menuIcon} onClick={()=> setIsOpen(!isOpen)} />
-                    <Typography variant="h3"> Welcom U </Typography>
+                    <Typography variant="h3"> Welcome {sessionStorage.getItem('firstName')} </Typography>
                 </FlexBetween>
                 <Box display='flex'>
                     <Grid onClick={colorMode.toggleColorMode} className={classes.themeIcon}>
