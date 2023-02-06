@@ -14,9 +14,11 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         {/*Обернули компонент App в BrowserRouter(маршрутизация) 0.2*/}
-
-        <Provider store={store}><BrowserRouter><App/></BrowserRouter></Provider>
-
+        <Provider store={store}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </Provider>
     </React.StrictMode>
 );
 
