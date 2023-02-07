@@ -80,7 +80,7 @@ const SidebarComponent: React.FC<ISidebarProps> = (props:ISidebarProps): JSX.Ele
                             <FlexBetween>
                                 <Box className={classes.brand}>
                                     {/*Рисуем лого сайдбара*/}
-                                    <img src={Logo} alt="Logo image"/>
+                                    <img src={Logo} alt="Logo"/>
                                     <Typography
                                         variant='h1'
                                         className={classes.brandTitle}

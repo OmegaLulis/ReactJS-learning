@@ -42,12 +42,6 @@ const AuthRootComponent:React.FC = ():JSX.Element => {
         } else{
             if (data.password===data.confirmPassword){
                 try {
-                    const userData = {
-                        firstName: data.firstName,
-                        userName: data.userName,
-                        email: data.email,
-                        password: data.password
-                    }
                     await dispatch(registerUser(data))
                     navigate('/')
                 } catch (e){

@@ -8,8 +8,8 @@ export const getFavoriteAssets = createAsyncThunk(
     'coins/markets',
     async (data: any, {rejectWithValue}) => {
         try {
-            const assets = await coinGeckoApi.get(`/coins/markets?vs_currency=usd&ids=${data}`)
-            return {name: data,data: assets.data, price: assets.data[0].current_price}
+            const assets = await coinGeckoApi.get(`coins/${data}/market_chart?vs_currency=usd&days=1`)
+            return {name: data,data: assets.data}
         } catch (error: any) {
             if (error.response && error.response.data.message) {
                 return rejectWithValue(error.response.data.message)
