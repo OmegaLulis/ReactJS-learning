@@ -9,9 +9,19 @@ export const getFavoriteAssets = createAsyncThunk(
     async (data: any, { rejectWithValue }) => {
         try {
             const assets = await coinGeckoApi.get(
-                `coins/${data}/market_chart?vs_currency=usd&days=90`,
+                `coins/${data}/market_chart?vs_currency=usd&days=360`,
             );
-            return { name: data, data: assets.data };
+            const singleAsset = await coinGeckoApi.get(
+                `coins/markets?vs_currency=usd&ids=${data}`,
+            );
+            return {
+                name: data,
+                data: assets.data.prices.slice(
+                    assets.data.prices.length - 31,
+                    assets.data.prices.length - 1,
+                ),
+                singleAsset: singleAsset.data,
+            };
         } catch (error: any) {
             if (error.response && error.response.data.message) {
                 return rejectWithValue(error.response.data.message);

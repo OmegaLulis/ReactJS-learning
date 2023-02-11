@@ -4,8 +4,10 @@ import { getFavoriteAssets } from "../../store/thunks/assets";
 import { Box, Grid } from "@mui/material";
 import { useStyles } from "./styles";
 import AreaChart from "../../components/charts/area-chart";
+import TrendDown from "../../assets/images/chart/trend-down.svg";
+import TrendUp from "../../assets/images/chart/trend-up.svg";
 
-const Home : React.FC = () : JSX.Element => {
+const Home: React.FC = (): JSX.Element => {
     const favoriteAssets: any[] = useAppSelector(
         (state) => state.assets.favoriteAssets,
     );
@@ -15,7 +17,7 @@ const Home : React.FC = () : JSX.Element => {
     const favoriteAssetName = useMemo(() => ["ethereum", "bitcoin"], []);
     // Создаем фильтер массива, чтобы исключить перерендер хомепейджа при переходах с других страниц
     const favoriteFilteredArray = favoriteAssets.filter(
-        (value, index:number, self) =>
+        (value, index: number, self) =>
             index === self.findIndex((t) => t.name === value.name),
     );
 
@@ -34,8 +36,13 @@ const Home : React.FC = () : JSX.Element => {
         fetchData(favoriteAssetName);
     }, [favoriteAssetName, fetchData]);
     const renderFavoriteBlock = favoriteFilteredArray.map((element: any) => {
-        const currentPrice = element.data.prices[0];
-        const currentCap = element.data.market_caps[0];
+        const currentCap = element.singleAsset.map(
+            (element: any) => element.market_cap,
+        );
+        const priceTrend = element.singleAsset.map(
+            (element: any) => element.market_cap_change_percentage_24h,
+        );
+        const currentPrice = element.data[element.data.length - 1];
         return (
             <Grid item xs={12} sm={6} lg={6} key={element.name}>
                 <Grid container className={classes.topCardItem}>
@@ -45,13 +52,24 @@ const Home : React.FC = () : JSX.Element => {
                             <h3 className={classes.cardPrice}>
                                 ${currentPrice[1].toFixed(2)}
                             </h3>
-                            <p className={classes.cardCapitalize}>
-                                ${currentCap[1].toFixed(0)}
-                            </p>
+                            <Box
+                                className={
+                                    priceTrend[0] > 0
+                                        ? `${classes.priceTrend} ${classes.trendUp}`
+                                        : `${classes.priceTrend} ${classes.trendDown}`
+                                }
+                            >
+                                {priceTrend[0] > 0 ? (
+                                    <img src={TrendUp} alt="" />
+                                ) : (
+                                    <img src={TrendDown} alt="" />
+                                )}
+                                <span>{priceTrend[0].toFixed(2)}%</span>
+                            </Box>
                         </div>
                     </Grid>
                     <Grid item xs={12} sm={6} lg={6}>
-                        <AreaChart data={element.data.prices} />
+                        <AreaChart data={element.data} />
                     </Grid>
                 </Grid>
             </Grid>
