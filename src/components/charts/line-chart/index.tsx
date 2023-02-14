@@ -1,17 +1,16 @@
 import React from "react";
 import {
-    Chart as ChartJS,
     CategoryScale,
+    Chart as ChartJS,
+    Legend,
     LinearScale,
-    PointElement,
     LineElement,
+    PointElement,
     Title,
     Tooltip,
-    Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
-import { IAreaChartProps, ILineChartProps } from "../../../common/types/assets";
+import { ILineChartProps } from "../../../common/types/assets";
 import moment from "moment/moment";
 
 ChartJS.register(
@@ -35,63 +34,64 @@ const LineChart = (props: ILineChartProps) => {
             },
             title: {
                 display: true,
-                text: "Price dynamics for 3 mouth",
+                text: "Dynamics of price changes for 3 months",
             },
         },
     };
 
-    const labels = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-    ];
+    const dataSetsForGraph = (data: any) => {
+        //Палитра цветов для координат линейных функций
+        const colorsBorderAndBackGround = (i: number) => {
+            switch (i) {
+                case 0:
+                    return ["rgb(255, 99, 132)", "rgba(255, 99, 132, 0.5)"];
+                case 1:
+                    return ["rgb(132, 99, 255)", "rgba(132, 99, 255, 0.5)"];
+                case 2:
+                    return ["rgb(120,255,99)", "rgba(120, 255, 99, 0.5)"];
+                default:
+                    const randomBetween = (min: any, max: any) =>
+                        min + Math.floor(Math.random() * (max - min + 1));
+                    const r = randomBetween(0, 255);
+                    const g = randomBetween(0, 255);
+                    const b = randomBetween(0, 255);
+                    const rgb = `rgb(${r},${g},${b})`;
+                    const rgba = `rgba(${r}, ${g}, ${b}, 0.5)`;
+                    return [rgb, rgba];
+            }
+        };
 
-    const dynamicRatePrice: any = (data: any) => {
-        let b: any[] = [];
-        const a = [];
-        let time = [];
-
+        // Инициализируем массив для координат линейных функций
+        const mainDatasets = [];
         for (let i = 0; i < data.length; i++) {
-            a.push(data[i].name.toUpperCase());
+            const dataAlready: any[] = [];
             for (let j = 1; j < data[i].price_chart_data.length; j++) {
-                b.push(
+                dataAlready.push(
                     Number(data[i].price_chart_data[j][1]) /
                         Number(data[i].price_chart_data[0][1]),
-                    // текущая цена делится на прошлую получается темп роста за день
+                    // текущая цена делится на базисную получается темп роста за период
                 );
-                time.push([data[i].price_chart_data[j][0]]);
             }
-            a.push(b, time);
-            b = [];
-            time = [];
+            // создаем объекты необходимы для отрисовки графиков согласно документации line react-chartjs-2
+            const objectDatasets = {
+                label: data[i].name.toUpperCase(),
+                data: dataAlready,
+                borderColor: colorsBorderAndBackGround(i)[0],
+                backgroundColor: colorsBorderAndBackGround(i)[1],
+            };
+            mainDatasets.push(objectDatasets);
         }
-        return a;
-    };
-    console.log(dynamicRatePrice(data));
-    console.log(data);
-    const values = {
-        labels: dynamicRatePrice(data)[2].map((element: any) =>
+        // передаем период для наших графиков(кординаты по X)
+        const periodGraphs = data[0].price_chart_data.map((element: any) =>
             moment(element[0]).format("DD.MM.YY"),
-        ),
-        datasets: [
-            {
-                label: dynamicRatePrice(data)[0],
-                data: dynamicRatePrice(data)[1],
-                borderColor: "rgb(255, 99, 132)",
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
-            },
-            {
-                label: dynamicRatePrice(data)[3],
-                data: dynamicRatePrice(data)[4],
-                borderColor: "rgb(132, 99, 255)",
-                backgroundColor: "rgba(132, 99, 255, 0.5)",
-            },
-        ],
+        );
+        // объект который передается для отрисовки в переменую values, которая далее пробрассывается в компонента Line
+        return {
+            labels: periodGraphs,
+            datasets: mainDatasets,
+        };
     };
+    const values = dataSetsForGraph(data);
 
     return <Line options={options} data={values} />;
 };
