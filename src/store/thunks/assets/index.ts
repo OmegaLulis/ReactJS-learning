@@ -16,8 +16,8 @@ export const getFavoriteAssets = createAsyncThunk(
             );
             return {
                 name: data,
-                data: assets.data.prices.slice(
-                    assets.data.prices.length - 31,
+                price_chart_data: assets.data.prices.slice(
+                    assets.data.prices.length - 91,
                     assets.data.prices.length - 1,
                 ),
                 singleAsset: singleAsset.data,
